@@ -1,0 +1,6 @@
+{
+  "/automation/page": "app/automation/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/logs/page": "app/logs/page.js",
+  "/remote/page": "app/remote/page.js"
+}

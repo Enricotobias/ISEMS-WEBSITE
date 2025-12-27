@@ -1,0 +1,718 @@
+[00:00:02.339] Server  LOG     ✓ Ready in 1661ms
+[00:00:02.723] Server  ERROR   ⨯ ./isems-frontend/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\app\globals.css:1:1: Cannot apply unknown utility class `border-gray-200`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
+    [at Input.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:105:5)]
+    [at async LazyResult.runAsync (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./isems-frontend/app/globals.css [Client Component Browser]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+
+[00:00:02.993] Server  ERROR   Node.js fs rename failed after 101 retries with error Error: EPERM: operation not permitted, rename 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js.tmp.8dhk79k9rf' -> 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js'
+[00:00:03.490] Server  ERROR   Error: EPERM: operation not permitted, rename 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js.tmp.8dhk79k9rf' -> 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js'
+[00:00:03.492] Server  ERROR   ⨯ "unhandledRejection:" Error: EPERM: operation not permitted, rename 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js.tmp.8dhk79k9rf' -> 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js'
+[00:00:03.495] Server  ERROR   ⨯ "unhandledRejection: " Error: EPERM: operation not permitted, rename 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js.tmp.8dhk79k9rf' -> 'C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\.next\dev\server\next-font-manifest.js'
+[00:00:05.012] Browser ERROR   uncaughtError: Error: ./isems-frontend/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\app\globals.css:1:1: Cannot apply unknown utility class `border-gray-200`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
+    [at Input.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:105:5)]
+    [at async LazyResult.runAsync (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./isems-frontend/app/globals.css [Client Component Browser]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+
+[00:00:05.651] Browser ERROR   ./isems-frontend/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\app\globals.css:1:1: Cannot apply unknown utility class `border-gray-200`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
+    [at Input.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:105:5)]
+    [at async LazyResult.runAsync (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./isems-frontend/app/globals.css [Client Component Browser]
+    ./isems-frontend/app/layout.tsx [Server Component]
+[00:00:05.651] Browser ERROR   ./isems-frontend/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\app\globals.css:1:1: Cannot apply unknown utility class `border-gray-200`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
+    [at Input.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (C:\Users\icoto\OneDrive - Universitas Diponegoro\Documents\ISEMS\isems-frontend\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)]
+    [at process.processTicksAndRejections (node:internal/process/task_queues:105:5)]
+    [at async LazyResult.runAsync (turbopack:///[project]/isems-frontend/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./isems-frontend/app/globals.css [Client Component Browser]
+    ./isems-frontend/app/layout.tsx [Server Component]
+[00:00:15.604] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:01:55.983] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:56.685] Browser LOG     [MQTT] Connecting to: wss://mqtt.nicourbanindonesia.com:8084/mqtt
+[00:02:05.872] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:02:07.737] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:07.907] Browser LOG     [MQTT] Connecting to: wss://mqtt.nicourbanindonesia.com:8084/mqtt
+[00:02:15.673] Server  LOG     ✓ Compiled in 174ms
+[00:02:17.670] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:02:28.956] Browser LOG     [MQTT] Connection Closed
+[00:02:55.019] Browser LOG     [MQTT] Connection Closed
+[00:03:21.092] Browser LOG     [MQTT] Connection Closed
+[00:03:25.727] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:25.914] Browser LOG     [MQTT] Connecting to: wss://mqtt.nicourbanindonesia.com:8084/mqtt
+[00:03:36.651] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[00:03:46.958] Browser LOG     [MQTT] Connection Closed
+[00:04:13.013] Browser LOG     [MQTT] Connection Closed
+[00:04:39.678] Browser LOG     [MQTT] Connection Closed
+[00:05:06.652] Browser LOG     [MQTT] Connection Closed
+[00:05:33.651] Browser LOG     [MQTT] Connection Closed
+[00:06:00.653] Browser LOG     [MQTT] Connection Closed
+[00:06:27.653] Browser LOG     [MQTT] Connection Closed
+[00:06:54.645] Browser LOG     [MQTT] Connection Closed
+[00:07:21.651] Browser LOG     [MQTT] Connection Closed
+[00:07:48.647] Browser LOG     [MQTT] Connection Closed
+[00:08:15.641] Browser LOG     [MQTT] Connection Closed
+[00:08:42.649] Browser LOG     [MQTT] Connection Closed
+[00:09:09.641] Browser LOG     [MQTT] Connection Closed
+[00:09:36.644] Browser LOG     [MQTT] Connection Closed
+[00:10:03.651] Browser LOG     [MQTT] Connection Closed
+[00:10:29.655] Browser LOG     [MQTT] Connection Closed
+[00:10:56.653] Browser LOG     [MQTT] Connection Closed
+[00:11:23.645] Browser LOG     [MQTT] Connection Closed
+[00:11:50.655] Browser LOG     [MQTT] Connection Closed
+[00:12:17.650] Browser LOG     [MQTT] Connection Closed
+[00:12:44.642] Browser LOG     [MQTT] Connection Closed
+[00:13:11.643] Browser LOG     [MQTT] Connection Closed
+[00:13:38.651] Browser LOG     [MQTT] Connection Closed
+[00:14:05.642] Browser LOG     [MQTT] Connection Closed
+[00:14:21.197] Server  LOG     ✓ Compiled in 152ms
+[00:14:32.654] Browser LOG     [MQTT] Connection Closed
+[00:14:59.663] Browser LOG     [MQTT] Connection Closed
+[00:15:26.654] Browser LOG     [MQTT] Connection Closed
+[00:15:53.648] Browser LOG     [MQTT] Connection Closed
+[00:16:20.006] Server  LOG     ✓ Compiled in 124ms
+[00:16:20.655] Browser LOG     [MQTT] Connection Closed
+[00:16:47.661] Browser LOG     [MQTT] Connection Closed
+[00:17:08.284] Server  LOG     ✓ Compiled in 191ms
+[00:17:14.641] Browser LOG     [MQTT] Connection Closed
+[00:17:41.656] Browser LOG     [MQTT] Connection Closed
+[00:18:08.642] Browser LOG     [MQTT] Connection Closed
+[00:18:35.656] Browser LOG     [MQTT] Connection Closed
+[00:19:02.641] Browser LOG     [MQTT] Connection Closed
+[00:19:29.647] Browser LOG     [MQTT] Connection Closed
+[00:19:56.650] Browser LOG     [MQTT] Connection Closed
+[00:20:23.646] Browser LOG     [MQTT] Connection Closed
+[00:20:50.641] Browser LOG     [MQTT] Connection Closed
+[00:21:17.650] Browser LOG     [MQTT] Connection Closed
+[00:21:44.652] Browser LOG     [MQTT] Connection Closed
+[00:22:11.647] Browser LOG     [MQTT] Connection Closed
+[00:22:24.995] Server  LOG     ✓ Compiled in 71ms
+[00:22:37.808] Browser LOG     [MQTT] Connection Closed
+[00:23:03.877] Browser LOG     [MQTT] Connection Closed
+[00:23:30.019] Browser LOG     [MQTT] Connection Closed
+[00:23:56.648] Browser LOG     [MQTT] Connection Closed
+[00:24:23.643] Browser LOG     [MQTT] Connection Closed
+[00:24:48.965] Browser LOG     [MQTT] Connection Closed
+[00:24:57.107] Browser LOG     [MQTT] Connection Closed
+[00:25:23.225] Browser LOG     [MQTT] Connection Closed
+[00:25:49.300] Browser LOG     [MQTT] Connection Closed
+[00:26:15.368] Browser LOG     [MQTT] Connection Closed
+[00:26:42.650] Browser LOG     [MQTT] Connection Closed
+[00:27:09.641] Browser LOG     [MQTT] Connection Closed
+[00:27:36.649] Browser LOG     [MQTT] Connection Closed
+[00:28:03.650] Browser LOG     [MQTT] Connection Closed
+[00:28:30.652] Browser LOG     [MQTT] Connection Closed
+[00:28:57.643] Browser LOG     [MQTT] Connection Closed
+[00:29:24.656] Browser LOG     [MQTT] Connection Closed
+[00:29:51.647] Browser LOG     [MQTT] Connection Closed
+[00:30:18.647] Browser LOG     [MQTT] Connection Closed
+[00:30:44.830] Browser LOG     [MQTT] Connection Closed
+[00:31:10.889] Browser LOG     [MQTT] Connection Closed
+[00:31:36.935] Browser LOG     [MQTT] Connection Closed
+[00:32:02.984] Browser LOG     [MQTT] Connection Closed
+[00:32:29.036] Browser LOG     [MQTT] Connection Closed
+[00:32:55.541] Browser LOG     [MQTT] Connection Closed
+[00:33:21.628] Browser LOG     [MQTT] Connection Closed
+[00:33:47.661] Browser LOG     [MQTT] Connection Closed
+[00:34:13.761] Browser LOG     [MQTT] Connection Closed
+[00:34:40.648] Browser LOG     [MQTT] Connection Closed
+[00:35:07.642] Browser LOG     [MQTT] Connection Closed
+[00:35:34.643] Browser LOG     [MQTT] Connection Closed
+[00:36:01.653] Browser LOG     [MQTT] Connection Closed
+[00:36:28.644] Browser LOG     [MQTT] Connection Closed
+[00:36:55.643] Browser LOG     [MQTT] Connection Closed
+[00:37:22.647] Browser LOG     [MQTT] Connection Closed
+[00:37:49.654] Browser LOG     [MQTT] Connection Closed
+[00:38:16.653] Browser LOG     [MQTT] Connection Closed
+[00:38:43.648] Browser LOG     [MQTT] Connection Closed
+[00:39:10.647] Browser LOG     [MQTT] Connection Closed
+[00:39:37.652] Browser LOG     [MQTT] Connection Closed
+[00:40:04.642] Browser LOG     [MQTT] Connection Closed
+[00:40:31.651] Browser LOG     [MQTT] Connection Closed
+[00:40:58.643] Browser LOG     [MQTT] Connection Closed
+[00:41:25.647] Browser LOG     [MQTT] Connection Closed
+[00:41:52.646] Browser LOG     [MQTT] Connection Closed
+[00:42:19.652] Browser LOG     [MQTT] Connection Closed
+[00:42:46.654] Browser LOG     [MQTT] Connection Closed
+[00:43:13.651] Browser LOG     [MQTT] Connection Closed
+[00:43:40.653] Browser LOG     [MQTT] Connection Closed
+[00:44:07.646] Browser LOG     [MQTT] Connection Closed
+[00:44:34.642] Browser LOG     [MQTT] Connection Closed
+[00:45:01.652] Browser LOG     [MQTT] Connection Closed
+[00:45:28.649] Browser LOG     [MQTT] Connection Closed
+[00:45:55.648] Browser LOG     [MQTT] Connection Closed
+[00:46:22.645] Browser LOG     [MQTT] Connection Closed
+[00:46:49.652] Browser LOG     [MQTT] Connection Closed
+[00:47:16.647] Browser LOG     [MQTT] Connection Closed
+[00:47:43.651] Browser LOG     [MQTT] Connection Closed
+[00:48:10.648] Browser LOG     [MQTT] Connection Closed
+[00:48:37.647] Browser LOG     [MQTT] Connection Closed
+[00:49:04.645] Browser LOG     [MQTT] Connection Closed
+[00:49:31.653] Browser LOG     [MQTT] Connection Closed
+[00:49:58.655] Browser LOG     [MQTT] Connection Closed
+[00:50:25.646] Browser LOG     [MQTT] Connection Closed
+[00:50:52.662] Browser LOG     [MQTT] Connection Closed
+[00:51:19.654] Browser LOG     [MQTT] Connection Closed
+[00:51:46.643] Browser LOG     [MQTT] Connection Closed
+[00:52:13.653] Browser LOG     [MQTT] Connection Closed
+[00:52:40.654] Browser LOG     [MQTT] Connection Closed
+[00:53:07.648] Browser LOG     [MQTT] Connection Closed
+[00:53:34.644] Browser LOG     [MQTT] Connection Closed
+[00:54:01.652] Browser LOG     [MQTT] Connection Closed
+[00:54:28.652] Browser LOG     [MQTT] Connection Closed
+[00:54:55.646] Browser LOG     [MQTT] Connection Closed
+[00:55:22.650] Browser LOG     [MQTT] Connection Closed
+[00:55:49.651] Browser LOG     [MQTT] Connection Closed
+[00:56:16.645] Browser LOG     [MQTT] Connection Closed
+[00:56:43.645] Browser LOG     [MQTT] Connection Closed
+[00:57:10.646] Browser LOG     [MQTT] Connection Closed
+[00:57:37.642] Browser LOG     [MQTT] Connection Closed
+[00:58:03.818] Browser LOG     [MQTT] Connection Closed
+[00:58:31.657] Browser LOG     [MQTT] Connection Closed
+[00:58:57.654] Browser LOG     [MQTT] Connection Closed
+[00:59:24.651] Browser LOG     [MQTT] Connection Closed
+[00:59:51.657] Browser LOG     [MQTT] Connection Closed
+[01:00:18.656] Browser LOG     [MQTT] Connection Closed
+[01:00:45.648] Browser LOG     [MQTT] Connection Closed
+[01:01:12.651] Browser LOG     [MQTT] Connection Closed
+[01:01:39.653] Browser LOG     [MQTT] Connection Closed
+[01:02:06.657] Browser LOG     [MQTT] Connection Closed
+[01:02:33.646] Browser LOG     [MQTT] Connection Closed
+[01:03:00.656] Browser LOG     [MQTT] Connection Closed
+[01:03:27.643] Browser LOG     [MQTT] Connection Closed
+[01:03:54.647] Browser LOG     [MQTT] Connection Closed
+[01:04:21.649] Browser LOG     [MQTT] Connection Closed
+[01:04:48.654] Browser LOG     [MQTT] Connection Closed
+[01:05:15.651] Browser LOG     [MQTT] Connection Closed
+[01:05:42.652] Browser LOG     [MQTT] Connection Closed
+[01:06:09.652] Browser LOG     [MQTT] Connection Closed
+[01:06:36.652] Browser LOG     [MQTT] Connection Closed
+[01:07:03.654] Browser LOG     [MQTT] Connection Closed
+[01:07:30.652] Browser LOG     [MQTT] Connection Closed
+[01:07:57.647] Browser LOG     [MQTT] Connection Closed
+[01:08:24.644] Browser LOG     [MQTT] Connection Closed
+[01:08:51.643] Browser LOG     [MQTT] Connection Closed
+[01:09:16.842] Browser LOG     [MQTT] Connection Closed
+[01:09:43.268] Browser LOG     [MQTT] Connection Closed
+[01:10:09.656] Browser LOG     [MQTT] Connection Closed
+[01:10:36.651] Browser LOG     [MQTT] Connection Closed
+[01:11:02.796] Browser LOG     [MQTT] Connection Closed
+[01:11:28.854] Browser LOG     [MQTT] Connection Closed
+[01:11:54.917] Browser LOG     [MQTT] Connection Closed
+[01:12:21.092] Browser LOG     [MQTT] Connection Closed
+[01:12:47.171] Browser LOG     [MQTT] Connection Closed
+[01:13:13.224] Browser LOG     [MQTT] Connection Closed
+[01:13:39.290] Browser LOG     [MQTT] Connection Closed
+[01:14:05.641] Browser LOG     [MQTT] Connection Closed
+[01:14:32.643] Browser LOG     [MQTT] Connection Closed
+[01:14:59.643] Browser LOG     [MQTT] Connection Closed
+[01:15:26.651] Browser LOG     [MQTT] Connection Closed
+[01:15:53.669] Browser LOG     [MQTT] Connection Closed
+[01:16:19.646] Browser LOG     [MQTT] Connection Closed
+[01:16:46.650] Browser LOG     [MQTT] Connection Closed
+[01:17:11.835] Browser LOG     [MQTT] Connection Closed
+[01:17:39.648] Browser LOG     [MQTT] Connection Closed
+[01:18:06.645] Browser LOG     [MQTT] Connection Closed
+[01:18:33.658] Browser LOG     [MQTT] Connection Closed
+[01:19:00.650] Browser LOG     [MQTT] Connection Closed
+[01:19:27.645] Browser LOG     [MQTT] Connection Closed
+[01:19:54.643] Browser LOG     [MQTT] Connection Closed
+[01:20:21.650] Browser LOG     [MQTT] Connection Closed
+[01:20:48.642] Browser LOG     [MQTT] Connection Closed
+[01:21:15.642] Browser LOG     [MQTT] Connection Closed
+[01:21:42.641] Browser LOG     [MQTT] Connection Closed
+[01:22:08.024] Browser LOG     [MQTT] Connection Closed
+[01:22:34.114] Browser LOG     [MQTT] Connection Closed
+[01:23:00.243] Browser LOG     [MQTT] Connection Closed
+[01:23:26.650] Browser LOG     [MQTT] Connection Closed
+[01:23:52.888] Browser LOG     [MQTT] Connection Closed
+[01:24:19.647] Browser LOG     [MQTT] Connection Closed
+[01:24:46.642] Browser LOG     [MQTT] Connection Closed
+[01:25:13.654] Browser LOG     [MQTT] Connection Closed
+[01:25:40.642] Browser LOG     [MQTT] Connection Closed
+[01:26:07.657] Browser LOG     [MQTT] Connection Closed
+[01:26:34.649] Browser LOG     [MQTT] Connection Closed
+[01:27:01.659] Browser LOG     [MQTT] Connection Closed
+[01:27:28.653] Browser LOG     [MQTT] Connection Closed
+[01:27:54.802] Browser LOG     [MQTT] Connection Closed
+[01:28:22.643] Browser LOG     [MQTT] Connection Closed
+[01:28:49.647] Browser LOG     [MQTT] Connection Closed
+[01:29:16.655] Browser LOG     [MQTT] Connection Closed
+[01:29:43.657] Browser LOG     [MQTT] Connection Closed
+[01:30:10.721] Browser LOG     [MQTT] Connection Closed
+[01:30:37.644] Browser LOG     [MQTT] Connection Closed
+[01:31:04.652] Browser LOG     [MQTT] Connection Closed
+[01:31:31.652] Browser LOG     [MQTT] Connection Closed
+[01:31:58.656] Browser LOG     [MQTT] Connection Closed
+[01:32:25.711] Browser LOG     [MQTT] Connection Closed
+[01:32:52.645] Browser LOG     [MQTT] Connection Closed
+[01:33:19.651] Browser LOG     [MQTT] Connection Closed
+[01:33:46.651] Browser LOG     [MQTT] Connection Closed
+[01:34:13.654] Browser LOG     [MQTT] Connection Closed
+[01:34:40.644] Browser LOG     [MQTT] Connection Closed
+[01:35:07.654] Browser LOG     [MQTT] Connection Closed
+[01:35:34.648] Browser LOG     [MQTT] Connection Closed
+[01:36:01.651] Browser LOG     [MQTT] Connection Closed
+[01:36:28.644] Browser LOG     [MQTT] Connection Closed
+[01:36:55.645] Browser LOG     [MQTT] Connection Closed
+[01:37:22.646] Browser LOG     [MQTT] Connection Closed
+[01:37:49.647] Browser LOG     [MQTT] Connection Closed
+[01:38:16.649] Browser LOG     [MQTT] Connection Closed
+[01:38:43.646] Browser LOG     [MQTT] Connection Closed
+[01:39:10.646] Browser LOG     [MQTT] Connection Closed
+[01:39:37.646] Browser LOG     [MQTT] Connection Closed
+[01:40:04.644] Browser LOG     [MQTT] Connection Closed
+[01:40:30.654] Browser LOG     [MQTT] Connection Closed
+[01:40:57.645] Browser LOG     [MQTT] Connection Closed
+[01:41:24.658] Browser LOG     [MQTT] Connection Closed
+[01:41:51.647] Browser LOG     [MQTT] Connection Closed
+[01:42:18.642] Browser LOG     [MQTT] Connection Closed
+[01:42:45.642] Browser LOG     [MQTT] Connection Closed
+[01:43:12.641] Browser LOG     [MQTT] Connection Closed
+[01:43:39.641] Browser LOG     [MQTT] Connection Closed
+[01:44:06.655] Browser LOG     [MQTT] Connection Closed
+[01:44:33.652] Browser LOG     [MQTT] Connection Closed
+[01:45:00.650] Browser LOG     [MQTT] Connection Closed
+[01:45:27.642] Browser LOG     [MQTT] Connection Closed
+[01:45:54.642] Browser LOG     [MQTT] Connection Closed
+[01:46:21.650] Browser LOG     [MQTT] Connection Closed
+[01:46:48.653] Browser LOG     [MQTT] Connection Closed
+[01:47:15.644] Browser LOG     [MQTT] Connection Closed
+[01:47:42.717] Browser LOG     [MQTT] Connection Closed
+[01:48:09.646] Browser LOG     [MQTT] Connection Closed
+[01:48:36.641] Browser LOG     [MQTT] Connection Closed
+[01:49:03.652] Browser LOG     [MQTT] Connection Closed
+[01:49:30.641] Browser LOG     [MQTT] Connection Closed
+[01:49:57.742] Browser LOG     [MQTT] Connection Closed
+[01:50:24.645] Browser LOG     [MQTT] Connection Closed
+[01:50:51.653] Browser LOG     [MQTT] Connection Closed
+[01:51:18.652] Browser LOG     [MQTT] Connection Closed
+[01:51:42.318] Server  LOG     ✓ Compiled in 142ms
+[01:51:42.655] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+[01:51:45.643] Browser LOG     [MQTT] Connection Closed
+[01:52:12.648] Browser LOG     [MQTT] Connection Closed
+[01:52:18.971] Server  ERROR   ⨯ ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/app/dashboard/page.tsx [Client Component Browser]
+    ./isems-frontend/app/dashboard/page.tsx [Server Component]
+
+  #2 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/app/dashboard/page.tsx [Client Component SSR]
+    ./isems-frontend/app/dashboard/page.tsx [Server Component]
+
+  #3 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+
+[01:52:20.445] Browser ERROR   uncaughtError: Error: ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+
+[01:52:20.718] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+[01:52:20.718] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/automation/schedule-editor.tsx [Client Component Browser]
+    ./isems-frontend/app/automation/page.tsx [Client Component Browser]
+    ./isems-frontend/app/automation/page.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/automation/schedule-editor.tsx [Client Component SSR]
+    ./isems-frontend/app/automation/page.tsx [Client Component SSR]
+    ./isems-frontend/app/automation/page.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+[01:52:20.718] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/logs/page.tsx [Client Component Browser]
+    ./isems-frontend/app/logs/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/logs/page.tsx [Client Component SSR]
+    ./isems-frontend/app/logs/page.tsx [Server Component]
+[01:52:20.718] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/app/dashboard/page.tsx [Client Component Browser]
+    ./isems-frontend/app/dashboard/page.tsx [Server Component]
+
+  #2 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/app/dashboard/page.tsx [Client Component SSR]
+    ./isems-frontend/app/dashboard/page.tsx [Server Component]
+
+  #3 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+[01:52:20.718] Browser ERROR   ./isems-frontend/lib/utils.ts:203:17
+Ecmascript file had an error
+  201 |
+  202 | // =================== UPTIME UTILS ===================
+> 203 | export function formatUptime(seconds: number): string {
+      |                 ^^^^^^^^^^^^
+  204 |   const days = Math.floor(seconds / 86400)
+  205 |   const hours = Math.floor((seconds % 86400) / 3600)
+  206 |   const minutes = Math.floor((seconds % 3600) / 60)
+
+the name `formatUptime` is defined multiple times
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+[01:52:30.379] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[01:53:53.909] Server  LOG     ✓ Compiled in 51ms
+[01:53:55.321] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:53:56.665] Browser LOG     [MQTT] Connecting to: wss://mqtt.nicourbanindonesia.com:8084/mqtt
+[01:54:06.653] Browser ERROR   unhandledRejection: i: Failed to connect to MetaMask
+[01:54:12.817] Server  LOG     ✓ Compiled in 67ms
+[01:54:13.656] Browser ERROR   ./isems-frontend/lib/utils.ts:183:1
+Parsing ecmascript source code failed
+  181 |
+  182 | // =================== UPTIME UTILS ===================
+> 183 | ./isems-frontend/lib/utils.ts (203:17)
+      | ^
+  184 |
+  185 | Ecmascript file had an error
+  186 |   201 |
+
+Expression expected
+
+Import traces:
+  #1 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Client Component Browser]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #2 [Client Component Browser]:
+    ./isems-frontend/lib/utils.ts [Client Component Browser]
+    ./isems-frontend/components/ui/card.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Client Component Browser]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+
+  #3 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Client Component SSR]
+    ./isems-frontend/components/shared/header.tsx [Server Component]
+    ./isems-frontend/app/layout.tsx [Server Component]
+
+  #4 [Client Component SSR]:
+    ./isems-frontend/lib/utils.ts [Client Component SSR]
+    ./isems-frontend/components/ui/card.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Client Component SSR]
+    ./isems-frontend/app/remote/page.tsx [Server Component]
+[01:54:17.654] Browser LOG     [MQTT] Connection Closed
+[01:54:25.468] Server  LOG     ✓ Compiled in 210ms
+[01:54:42.779] Browser LOG     [MQTT] Connection Closed
+[01:55:08.904] Browser LOG     [MQTT] Connection Closed
+[01:55:34.980] Browser LOG     [MQTT] Connection Closed
+[01:56:01.034] Browser LOG     [MQTT] Connection Closed
+[01:56:27.071] Browser LOG     [MQTT] Connection Closed
+[01:56:53.114] Browser LOG     [MQTT] Connection Closed
+[01:57:19.285] Browser LOG     [MQTT] Connection Closed
+[01:57:45.653] Browser LOG     [MQTT] Connection Closed
+[01:58:12.647] Browser LOG     [MQTT] Connection Closed
+[01:58:38.645] Browser LOG     [MQTT] Connection Closed
+[01:59:05.650] Browser LOG     [MQTT] Connection Closed
+[01:59:32.650] Browser LOG     [MQTT] Connection Closed
+[01:59:59.648] Browser LOG     [MQTT] Connection Closed
+[02:00:26.655] Browser LOG     [MQTT] Connection Closed
+[02:00:53.643] Browser LOG     [MQTT] Connection Closed
+[02:01:20.642] Browser LOG     [MQTT] Connection Closed
+[02:01:47.645] Browser LOG     [MQTT] Connection Closed
+[02:02:14.657] Browser LOG     [MQTT] Connection Closed
+[02:02:41.655] Browser LOG     [MQTT] Connection Closed
+[02:03:08.642] Browser LOG     [MQTT] Connection Closed
+[02:03:35.646] Browser LOG     [MQTT] Connection Closed
+[02:04:02.648] Browser LOG     [MQTT] Connection Closed
+[02:04:29.650] Browser LOG     [MQTT] Connection Closed
+[02:04:56.650] Browser LOG     [MQTT] Connection Closed
+[02:05:23.648] Browser LOG     [MQTT] Connection Closed
+[02:05:50.650] Browser LOG     [MQTT] Connection Closed
+[02:06:17.644] Browser LOG     [MQTT] Connection Closed
+[02:06:44.651] Browser LOG     [MQTT] Connection Closed
+[02:07:11.642] Browser LOG     [MQTT] Connection Closed
+[02:07:38.645] Browser LOG     [MQTT] Connection Closed
+[02:08:05.656] Browser LOG     [MQTT] Connection Closed
+[02:08:32.645] Browser LOG     [MQTT] Connection Closed
+[02:08:59.652] Browser LOG     [MQTT] Connection Closed
+[02:09:26.645] Browser LOG     [MQTT] Connection Closed
+[02:09:53.656] Browser LOG     [MQTT] Connection Closed
+[02:10:20.656] Browser LOG     [MQTT] Connection Closed
+[02:10:47.643] Browser LOG     [MQTT] Connection Closed
+[02:11:14.645] Browser LOG     [MQTT] Connection Closed
+[02:11:41.646] Browser LOG     [MQTT] Connection Closed
+[02:12:08.650] Browser LOG     [MQTT] Connection Closed
+[02:12:35.642] Browser LOG     [MQTT] Connection Closed
+[02:13:02.644] Browser LOG     [MQTT] Connection Closed
+[02:13:29.655] Browser LOG     [MQTT] Connection Closed
+[02:13:56.645] Browser LOG     [MQTT] Connection Closed
+[02:14:23.652] Browser LOG     [MQTT] Connection Closed
+[02:14:50.644] Browser LOG     [MQTT] Connection Closed
+[02:15:17.652] Browser LOG     [MQTT] Connection Closed
+[02:15:44.643] Browser LOG     [MQTT] Connection Closed
+[02:16:11.649] Browser LOG     [MQTT] Connection Closed
+[02:16:38.655] Browser LOG     [MQTT] Connection Closed
+[02:17:05.647] Browser LOG     [MQTT] Connection Closed
+[02:17:32.650] Browser LOG     [MQTT] Connection Closed
+[02:17:59.645] Browser LOG     [MQTT] Connection Closed
+[02:18:26.653] Browser LOG     [MQTT] Connection Closed

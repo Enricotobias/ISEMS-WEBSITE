@@ -1,0 +1,101 @@
+import mqtt, { MqttClient } from 'mqtt';
+
+export type MQTTMessageHandler = (topic: string, message: string) => void;
+
+class MQTTService {
+  private client: MqttClient | null = null;
+  private messageHandlers: Set<MQTTMessageHandler> = new Set();
+  private isConnecting = false; // Flag untuk mencegah double connection
+
+  connect() {
+    if (this.client?.connected || this.isConnecting) {
+      return this.client;
+    }
+
+    const host = process.env.NEXT_PUBLIC_MQTT_HOST;
+    const port = process.env.NEXT_PUBLIC_MQTT_PORT;
+    const protocol = process.env.NEXT_PUBLIC_MQTT_PROTOCOL || 'wss';
+    
+    // PENTING: Tambahkan /mqtt di akhir karena ini standar WebSocket Broker
+    const url = `${protocol}://${host}:${port}/mqtt`;
+    
+    console.log(`[MQTT] Connecting to: ${url}`);
+    this.isConnecting = true;
+
+    this.client = mqtt.connect(url, {
+      username: process.env.NEXT_PUBLIC_MQTT_USER,
+      password: process.env.NEXT_PUBLIC_MQTT_PASS,
+      clientId: `web_client_${Math.random().toString(16).slice(2, 8)}`,
+      reconnectPeriod: 5000,
+      connectTimeout: 30000,
+      keepalive: 60,
+      clean: true,
+      // rejectUnauthorized: false // Tidak perlu di browser (WSS akan divalidasi browser)
+    });
+
+    this.client.on('connect', () => {
+      console.log('[MQTT] ✓ Connected via WebSocket Secure');
+      this.isConnecting = false;
+      
+      // Subscribe ulang saat reconnect
+      this.subscribe('isems/devices/#');
+      this.subscribe('isems/command/#');
+    });
+
+    this.client.on('error', (err) => {
+      console.error('[MQTT] Connection Error:', err.message);
+      this.isConnecting = false;
+    });
+    
+    this.client.on('close', () => {
+        console.log('[MQTT] Connection Closed');
+        this.isConnecting = false;
+    });
+
+    this.client.on('message', (topic, message) => {
+      const msgString = message.toString();
+      this.messageHandlers.forEach(handler => handler(topic, msgString));
+    });
+
+    return this.client;
+  }
+
+  subscribe(topic: string) {
+    if (!this.client) return;
+    this.client.subscribe(topic, (err) => {
+      if (err) console.error(`[MQTT] Subscribe failed: ${topic}`);
+      else console.log(`[MQTT] Subscribed: ${topic}`);
+    });
+  }
+
+  publish(topic: string, message: string | object) {
+    if (!this.client?.connected) {
+      console.warn('[MQTT] Cannot publish - Offline');
+      return;
+    }
+    const payload = typeof message === 'string' ? message : JSON.stringify(message);
+    this.client.publish(topic, payload, { qos: 1 });
+  }
+
+  addMessageHandler(handler: MQTTMessageHandler) {
+    this.messageHandlers.add(handler);
+    return () => { this.messageHandlers.delete(handler); };
+  }
+
+  isConnected(): boolean {
+    return !!this.client?.connected;
+  }
+
+  disconnect() {
+    if (this.client) {
+      this.client.end();
+      this.client = null;
+      this.isConnecting = false;
+    }
+  }
+}
+
+// Singleton export
+export const mqttService = new MQTTService();
+// Export default untuk kompatibilitas jika ada file lain yang pakai default import
+export default mqttService;
