@@ -3,8 +3,10 @@ import db from '../config/db';
 import { TelemetryPayload, SettingPayload, AckPayload } from '../interfaces/payloads'; // Pastikan import sesuai
 import dotenv from 'dotenv';
 
-dotenv.config();
 
+dotenv.config();
+export const latestAcks = new Map<string, any>();
+export const lastRemoteStates = new Map<string, any>();
 // Konfigurasi Koneksi MQTT
 const mqttUrl = process.env.MQTT_HOST || '';
 const mqttOptions: mqtt.IClientOptions = {
@@ -232,14 +234,23 @@ export const initMqtt = () => {
                 // ============================================================
                 // 5. ACK
                 // ============================================================
-                else if (type === 'ack') {
+                    else if (type === 'ack') {
                     const ack: AckPayload = JSON.parse(msgString);
+                    
+                    // 1. Simpan ke DB (History)
                     await db.raw(
                         `INSERT INTO event_logs (device_id, type, command, status, message) VALUES (?, 'ACK', ?, ?, ?)`,
                         [deviceId, ack.cmd, ack.status, ack.detail]
                     );
+
+                    // 2. [BARU] Simpan ke Memory untuk Polling Frontend
+                    latestAcks.set(deviceId, {
+                        ...ack,
+                        server_received_at: Date.now()
+                    });
+
                     console.log(`[ACK] ${deviceId} ${ack.cmd}: ${ack.status}`);
-                }
+                }   
 
                 // ============================================================
                 // 6. LOGS

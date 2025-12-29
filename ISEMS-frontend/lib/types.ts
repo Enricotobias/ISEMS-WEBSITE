@@ -150,6 +150,13 @@ export interface RemoteControlProps {
   isLoading?: boolean;
 }
 
+export interface DeviceAck {
+  cmd: 'setting' | 'remote' | 'koneksi' | 'schedule' | 'update' | 'diagnostics' | 'reboot';
+  status: 'success' | 'failed' | 'processing';
+  detail: string;
+  ts: number;
+}
+
 // =================== UTILITY TYPES ===================
 export interface TimeRange {
   start: Date;

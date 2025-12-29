@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { TimePicker } from '@/components/ui/time-picker'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/UI/card'
+import { Button } from '@/components/UI/button'
+import { TimePicker } from '@/components/UI/time-picker'
 import { Calendar, Clock, Save, X } from 'lucide-react'
 import { cn, getDayName, getScheduleTypeLabel } from '@/lib/utils'
 import type { DaySchedule } from '@/lib/types'

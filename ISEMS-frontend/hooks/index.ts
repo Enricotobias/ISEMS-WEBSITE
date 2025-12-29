@@ -304,14 +304,22 @@ export function useServerConnection() {
     '/status', 
     () => systemAPI.getStatus(),
     { 
-      refreshInterval: 5000, // Cek setiap 5 detik
+      refreshInterval: 5000, 
       dedupingInterval: 2000 
     }
   );
 
+  // Ambil data status (tambahkan pengecekan database)
+  const mqttStatus = (data as any)?.mqtt;
+  const dbStatus = (data as any)?.database;
+
   return { 
-    // Bernilai True jika backend bilang 'Connected'
-    isConnected: data?.mqtt === 'Connected',
+    // Syarat Online: MQTT Connect DAN Database Connect
+    isConnected: mqttStatus === 'Connected' && dbStatus === 'Connected',
+    
+    // Info tambahan jika Anda ingin menampilkan detail error nanti
+    details: { mqtt: mqttStatus, database: dbStatus },
+    
     isLoading: !data && !error
   };
 }

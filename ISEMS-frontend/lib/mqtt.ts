@@ -5,7 +5,7 @@ export type MQTTMessageHandler = (topic: string, message: string) => void;
 class MQTTService {
   private client: MqttClient | null = null;
   private messageHandlers: Set<MQTTMessageHandler> = new Set();
-  private isConnecting = false; // Flag untuk mencegah double connection
+  private isConnecting = false;
 
   connect() {
     if (this.client?.connected || this.isConnecting) {
@@ -16,7 +16,7 @@ class MQTTService {
     const port = process.env.NEXT_PUBLIC_MQTT_PORT;
     const protocol = process.env.NEXT_PUBLIC_MQTT_PROTOCOL || 'wss';
     
-    // PENTING: Tambahkan /mqtt di akhir karena ini standar WebSocket Broker
+    // PENTING: /mqtt path untuk WebSocket
     const url = `${protocol}://${host}:${port}/mqtt`;
     
     console.log(`[MQTT] Connecting to: ${url}`);
@@ -30,14 +30,13 @@ class MQTTService {
       connectTimeout: 30000,
       keepalive: 60,
       clean: true,
-      // rejectUnauthorized: false // Tidak perlu di browser (WSS akan divalidasi browser)
     });
 
     this.client.on('connect', () => {
       console.log('[MQTT] ✓ Connected via WebSocket Secure');
       this.isConnecting = false;
       
-      // Subscribe ulang saat reconnect
+      // Subscribe global untuk menangkap data devices & command feedbacks
       this.subscribe('isems/devices/#');
       this.subscribe('isems/command/#');
     });
@@ -64,7 +63,7 @@ class MQTTService {
     if (!this.client) return;
     this.client.subscribe(topic, (err) => {
       if (err) console.error(`[MQTT] Subscribe failed: ${topic}`);
-      else console.log(`[MQTT] Subscribed: ${topic}`);
+      // else console.log(`[MQTT] Subscribed: ${topic}`); // Uncomment jika ingin log verbose
     });
   }
 
@@ -79,11 +78,17 @@ class MQTTService {
 
   addMessageHandler(handler: MQTTMessageHandler) {
     this.messageHandlers.add(handler);
+    // Return fungsi cleanup
     return () => { this.messageHandlers.delete(handler); };
   }
 
   isConnected(): boolean {
     return !!this.client?.connected;
+  }
+
+  // [BARU] Helper untuk mengambil raw client jika dibutuhkan komponen luar
+  getClient(): MqttClient | null {
+    return this.client;
   }
 
   disconnect() {
@@ -95,7 +100,5 @@ class MQTTService {
   }
 }
 
-// Singleton export
 export const mqttService = new MQTTService();
-// Export default untuk kompatibilitas jika ada file lain yang pakai default import
 export default mqttService;

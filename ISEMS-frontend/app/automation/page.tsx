@@ -4,70 +4,84 @@ import { useState, useEffect } from 'react'
 import { useDevices } from '@/hooks'
 import { AutomationSettings } from '@/components/automation/automation-settings'
 import { ScheduleEditor } from '@/components/automation/schedule-editor'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/UI/card'
 import { Settings, ChevronRight, CheckCircle, XCircle } from 'lucide-react'
-import { controlAPI } from '@/lib/api'
+import { automationAPI } from '@/lib/api' // Import API yang benar
+import { mqttService } from '@/lib/mqtt'   // Import MQTT Service
 import type { DeviceSettings, DaySchedule } from '@/lib/types'
 import useSWR from 'swr'
-import axios from 'axios'
 
 export default function AutomationPage() {
   const { devices, isLoading: devicesLoading } = useDevices()
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
-  // Fetch device settings
-  const { data: settingsData, mutate } = useSWR(
-    selectedDeviceId ? `/settings/${selectedDeviceId}` : null,
-    async () => {
-      // Dummy fetch - ganti dengan API call sebenarnya
-      // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/settings/${selectedDeviceId}`)
-      // return response.data
-      
-      // Mock data untuk development
-      return {
-        device_id: selectedDeviceId,
-        automation: true,
-        max_temp: 28,
-        min_temp: 20,
-        set_temp: 24,
-        set_mode: 'COOL',
-        system_mode: 'AUTO',
-        pause_reason: '-',
-        manual_remaining_s: 0,
-        schedule_json: [
-          { day: 'senin', type: 'full_time' },
-          { day: 'selasa', type: 'full_time' },
-          { day: 'rabu', type: 'full_time' },
-          { day: 'kamis', type: 'full_time' },
-          { day: 'jumat', type: 'full_time' },
-          { day: 'sabtu', type: 'libur' },
-          { day: 'minggu', type: 'libur' },
-        ],
-        updated_at: new Date().toISOString()
-      } as DeviceSettings
-    }
-  )
-
+  
   // Local state untuk editing
   const [localSettings, setLocalSettings] = useState<DeviceSettings | null>(null)
 
-  // Auto-select first device
+  // 1. Fetch device settings dari Database
+  const { data: settingsData, mutate } = useSWR(
+    selectedDeviceId ? `/settings/${selectedDeviceId}` : null,
+    () => automationAPI.getSettings(selectedDeviceId!),
+    {
+      revalidateOnFocus: false, // Jangan refresh otomatis saat klik window
+      onSuccess: (data) => {
+        setLocalSettings(data) // Sync local state saat data baru masuk
+      }
+    }
+  )
+
+  // 2. Auto-select device pertama
   useEffect(() => {
     if (!selectedDeviceId && devices.length > 0 && !devicesLoading) {
       setSelectedDeviceId(devices[0].device_id)
     }
   }, [devices, devicesLoading, selectedDeviceId])
 
-  // Update local settings saat data berubah
+  // 3. MQTT Listener (Real-time Updates dari Device Fisik/User Lain)
   useEffect(() => {
-    if (settingsData) {
-      setLocalSettings(settingsData)
-    }
-  }, [settingsData])
+    if (!selectedDeviceId) return;
 
+    // Subscribe ke topic setting device
+    // Topic ini aktif jika ESP32 melapor ada perubahan setting lokal
+    const settingTopic = `isems/devices/${selectedDeviceId}/setting`; 
+    
+    // Subscribe juga ke topic command (feedback dari backend)
+    const commandTopic = `isems/command/${selectedDeviceId}/setting`;
+
+    const cleanup = mqttService.addMessageHandler((topic, message) => {
+      if (topic === settingTopic || topic === commandTopic) {
+        try {
+          const newSettings = JSON.parse(message);
+          
+          console.log('[MQTT] Received Settings Update:', newSettings);
+
+          // Update state lokal agar UI berubah real-time
+          setLocalSettings(prev => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              ...newSettings,
+              // Handle schedule khusus karena bentuknya array
+              schedule_json: newSettings.daily || newSettings.schedule_json || prev.schedule_json,
+              // Pastikan automation boolean
+              automation: newSettings.automation !== undefined 
+                ? (typeof newSettings.automation === 'boolean' ? newSettings.automation : newSettings.automation === 1)
+                : prev.automation
+            };
+          });
+        } catch (err) {
+          console.error('[MQTT] Parse error:', err);
+        }
+      }
+    });
+
+    return cleanup;
+  }, [selectedDeviceId]);
+
+
+  // Handle perubahan di form UI
   const handleSettingsChange = (updates: Partial<DeviceSettings>) => {
     if (!localSettings) return
     setLocalSettings({ ...localSettings, ...updates })
@@ -78,6 +92,7 @@ export default function AutomationPage() {
     setLocalSettings({ ...localSettings, schedule_json: schedule })
   }
 
+  // --- SAVE LOGIC ---
   const handleSaveSettings = async () => {
     if (!localSettings || !selectedDeviceId) return
 
@@ -85,21 +100,11 @@ export default function AutomationPage() {
     setSaveStatus('idle')
 
     try {
-      // Kirim ke backend
-      await controlAPI.updateSetting(selectedDeviceId, {
-        automation: localSettings.automation,
-        max_temp: localSettings.max_temp,
-        min_temp: localSettings.min_temp,
-        set_temp: localSettings.set_temp,
-        set_mode: localSettings.set_mode,
-      })
+      // Panggil API saveSettings
+      await automationAPI.saveSettings(selectedDeviceId, localSettings)
 
       setSaveStatus('success')
-      
-      // Refresh data
-      await mutate()
-
-      // Reset status setelah 3 detik
+      await mutate() // Refresh data SWR
       setTimeout(() => setSaveStatus('idle'), 3000)
     } catch (error) {
       console.error('Failed to save settings:', error)
@@ -117,21 +122,11 @@ export default function AutomationPage() {
     setSaveStatus('idle')
 
     try {
-      // Kirim schedule ke backend
-      const schedulePayload = {
-        daily: localSettings.schedule_json
-      }
-
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/schedule/${selectedDeviceId}`,
-        schedulePayload
-      )
+      // Panggil API saveSchedule
+      await automationAPI.saveSchedule(selectedDeviceId, localSettings.schedule_json)
 
       setSaveStatus('success')
-      
-      // Refresh data
       await mutate()
-
       setTimeout(() => setSaveStatus('idle'), 3000)
     } catch (error) {
       console.error('Failed to save schedule:', error)
@@ -147,8 +142,6 @@ export default function AutomationPage() {
       setLocalSettings(settingsData)
     }
   }
-
-  const selectedDevice = devices.find(d => d.device_id === selectedDeviceId)
 
   return (
     <div className="space-y-6">
@@ -174,12 +167,12 @@ export default function AutomationPage() {
             {saveStatus === 'success' ? (
               <>
                 <CheckCircle className="h-5 w-5" />
-                <span className="font-medium">Settings saved successfully!</span>
+                <span className="font-medium">Saved successfully!</span>
               </>
             ) : (
               <>
                 <XCircle className="h-5 w-5" />
-                <span className="font-medium">Failed to save settings</span>
+                <span className="font-medium">Failed to save</span>
               </>
             )}
           </div>
@@ -273,7 +266,7 @@ export default function AutomationPage() {
 
                 {/* Schedule Editor */}
                 <ScheduleEditor
-                  schedule={localSettings.schedule_json}
+                  schedule={localSettings.schedule_json || []}
                   onChange={handleScheduleChange}
                   onSave={handleSaveSchedule}
                   isSaving={isSaving}

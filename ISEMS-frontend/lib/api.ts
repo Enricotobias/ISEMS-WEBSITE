@@ -85,9 +85,18 @@ export const controlAPI = {
      // Endpoint khusus refresh
      const { data } = await api.post(`/devices/${deviceId}/refresh`);
      return data;
+  },
+  // [BARU] Ambil ACK terakhir
+  getLatestAck: async (deviceId: string) => {
+    const { data } = await api.get(`/devices/${deviceId}/ack`);
+    return data;
+  },
+  // [BARU] Ambil State Remote Terakhir
+  getLastState: async (deviceId: string) => {
+    const { data } = await api.get(`/devices/${deviceId}/last-state`);
+    return data;
   }
 };
-
 // ==========================================
 // 5. SYSTEM STATUS
 // ==========================================
@@ -95,6 +104,32 @@ export const systemAPI = {
   getStatus: async () => {
     // Endpoint ini mengembalikan { server: 'Online', mqtt: 'Connected'/'Disconnected' }
     const { data } = await api.get<{ mqtt: string }>('/status');
+    return data;
+  }
+};
+
+// 6. AUTOMATION (Jadwal & Settings)
+// ==========================================
+export const automationAPI = {
+  // Simpan Jadwal
+  saveSchedule: async (deviceId: string, schedule: any[]) => {
+    // URL Backend: /api/devices/:id/schedule
+    const { data } = await api.post(`/devices/${deviceId}/schedule`, { 
+      schedule // Data array jadwal dikirim dalam object { schedule: [...] }
+    });
+    return data;
+  },
+// [BARU] Simpan Automation Settings
+  saveSettings: async (deviceId: string, settings: any) => {
+    // Kirim ke endpoint baru: /api/devices/:id/settings
+    const { data } = await api.post(`/devices/${deviceId}/settings`, { 
+      settings // Data settings dibungkus dalam object
+    });
+    return data;
+  },
+
+  getSettings: async (deviceId: string) => {
+    const { data } = await api.get(`/devices/${deviceId}/settings`);
     return data;
   }
 };

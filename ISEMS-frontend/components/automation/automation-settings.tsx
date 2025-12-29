@@ -1,7 +1,7 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/UI/card'
+import { Button } from '@/components/UI/button'
 import { Settings2, Thermometer, Save, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { DeviceSettings } from '@/lib/types'
