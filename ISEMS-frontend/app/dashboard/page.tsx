@@ -1,20 +1,18 @@
 'use client'
 
-import { useDevices, useDeviceHealth } from '@/hooks' // Hook baru sudah ada
+import { useDevices, useDeviceHealth } from '@/hooks'
 import { DeviceStatusCard } from '@/components/dashboard/device-status-card'
 import { TemperatureChart } from '@/components/dashboard/temperature-chart'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { RefreshCw, Plus, Activity, Clock, Stethoscope } from 'lucide-react' // Tambah Icon
+import { RefreshCw, Plus, Activity, Clock, Stethoscope } from 'lucide-react'
 import { useState } from 'react'
 import { formatUptime, getHealthColor } from '@/lib/utils'
-import { controlAPI } from '@/lib/api' // Import controlAPI
+import { controlAPI } from '@/lib/api'
 
 export default function DashboardPage() {
   const { devices, isLoading, refresh } = useDevices()
   const [refreshing, setRefreshing] = useState(false)
-  
-  // PERBAIKAN TYPO DI SINI:
   const [isScanning, setIsScanning] = useState(false)
 
   // Ambil Device ID pertama
@@ -37,7 +35,7 @@ export default function DashboardPage() {
       // 1. Kirim Perintah ke ESP32
       await controlAPI.requestDiagnostics(mainDeviceId);
       
-      // 2. Tunggu 2.5 detik
+      // 2. Tunggu 2.5 detik agar ESP32 sempat membalas
       await new Promise(resolve => setTimeout(resolve, 2500));
       
       // 3. Refresh data
@@ -67,7 +65,7 @@ export default function DashboardPage() {
           <Button 
             onClick={handleRefresh} 
             variant="outline"
-            isLoading={refreshing}
+            disabled={refreshing}
           >
             <RefreshCw className={`mr-2 h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
             Refresh
@@ -117,13 +115,12 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Card 3: DEVICE HEALTH DENGAN TOMBOL SCAN */}
+        {/* Card 3: DEVICE HEALTH */}
         <Card className="relative overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">
               System Health
             </CardTitle>
-            {/* Tombol Scan */}
             <Button 
               variant="ghost" 
               size="icon" 
@@ -194,14 +191,16 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* DEVICE LIST */}
       {!isLoading && devices.length > 0 && (
         <>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {devices.map((device) => (
+              // PERBAIKAN UTAMA ADA DI SINI:
+              // Kita sekarang mengirim seluruh object 'device' ke component
               <DeviceStatusCard
                 key={device.device_id}
-                deviceId={device.device_id}
-                deviceName={device.name}
+                device={device} 
               />
             ))}
           </div>

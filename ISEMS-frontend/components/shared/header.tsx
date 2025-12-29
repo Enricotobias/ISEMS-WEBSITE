@@ -2,12 +2,14 @@
 
 import { useMQTTConnection } from '@/hooks'
 import { Wifi, WifiOff, Bell, Search } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/UI/button'
 import { formatTimeOnly } from '@/lib/utils'
 import { useState, useEffect } from 'react'
+import { cn } from '@/lib/utils'
+import { useServerConnection } from '@/hooks'
 
 export function Header() {
-  const { isConnected } = useMQTTConnection()
+  const { isConnected } = useServerConnection()
   
   // SOLUSI: Inisialisasi dengan null agar Server & Client sepakat "kosong" dulu
   const [currentTime, setCurrentTime] = useState<Date | null>(null)
@@ -52,25 +54,24 @@ export function Header() {
           </div>
 
           {/* MQTT Status Indicator */}
-          <div className={`flex items-center gap-2 rounded-lg px-3 py-2 transition-colors ${
-            isConnected 
-              ? 'bg-green-50 text-green-600' 
-              : 'bg-red-50 text-red-600'
-          }`}>
-            {isConnected ? (
-              <>
-                <Wifi className="h-4 w-4" />
-                <span className="text-sm font-medium">MQTT Connected</span>
-                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-              </>
-            ) : (
-              <>
-                <WifiOff className="h-4 w-4" />
-                <span className="text-sm font-medium">Disconnected</span>
-                <div className="h-2 w-2 rounded-full bg-red-500" />
-              </>
-            )}
-          </div>
+          <div className={cn(
+          "flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium transition-colors",
+          isConnected 
+            ? "bg-green-100 text-green-700" 
+            : "bg-red-100 text-red-700"
+        )}>
+          {isConnected ? (
+            <>
+              <Wifi className="h-4 w-4" />
+              <span>System Online</span> {/* Indikasi Backend 8883 Aman */}
+            </>
+          ) : (
+            <>
+              <WifiOff className="h-4 w-4" />
+              <span>System Offline</span>
+            </>
+          )}
+        </div>
 
           {/* Notification Button */}
           <Button variant="ghost" size="icon" className="relative">

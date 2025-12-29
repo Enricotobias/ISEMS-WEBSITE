@@ -1,118 +1,100 @@
+// ISEMS-frontend/lib/api.ts
+
 import axios from 'axios';
+import { Device, TelemetryLog, EventLog, DeviceHealth } from './types'; // Pastikan path import benar
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
-const apiClient = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
 });
 
-// Response interceptor untuk error handling
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error('API Error:', error.response?.data || error.message);
-    return Promise.reject(error);
+// ==========================================
+// 1. DEVICES & HEALTH
+// ==========================================
+export const deviceAPI = {
+  // Get All Devices
+  getAll: async () => {
+    const { data } = await api.get<Device[]>('/devices');
+    return data;
+  },
+  
+  // Get Single Device
+  getOne: async (id: string) => {
+    const { data } = await api.get<Device>(`/devices/${id}/detail`);
+    return data;
+  },
+
+  // Get Device Health (Baru)
+  getHealth: async (id: string) => {
+    const { data } = await api.get<DeviceHealth>(`/devices/${id}/health`);
+    return data;
   }
-);
-
-// =================== DEVICES ===================
-export const devicesAPI = {
-  getAll: () => apiClient.get('/devices'),
-  getById: (id: string) => apiClient.get(`/devices/${id}`),
 };
 
-// =================== TELEMETRY ===================
+// ==========================================
+// 2. TELEMETRY (Data Sensor)
+// ==========================================
 export const telemetryAPI = {
-  getLogs: (deviceId: string, limit = 50) => 
-    apiClient.get(`/logs/${deviceId}`, { params: { limit } }),
-  
-  getLatest: (deviceId: string) => 
-    apiClient.get(`/logs/${deviceId}`, { params: { limit: 1 } }),
+  // Get History (Log Suhu)
+  getHistory: async (deviceId: string, limit = 20) => {
+    // Perhatikan endpoint baru: /telemetry
+    const { data } = await api.get<TelemetryLog[]>(`/devices/${deviceId}/telemetry?limit=${limit}`);
+    return data;
+  },
+
+  // Get Chart Data
+  getChartData: async (deviceId: string) => {
+    const { data } = await api.get<TelemetryLog[]>(`/devices/${deviceId}/chart`);
+    return data;
+  }
 };
 
-// =================== (BARU) HEALTH API ===================
-export const healthAPI = {
-  // Mengambil data kesehatan terakhir
-  getLatest: (deviceId: string) => 
-    apiClient.get(`/health/${deviceId}`), 
+// ==========================================
+// 3. SYSTEM LOGS
+// ==========================================
+export const logsAPI = {
+  // Get System Logs
+  getAll: async () => {
+    // Perhatikan endpoint baru: /system-logs
+    const { data } = await api.get<EventLog[]>('/system-logs');
+    return data;
+  }
 };
 
-// === TAMBAHKAN INI: EVENTS API ===
-export const eventsAPI = {
-  getLogs: (deviceId: string, limit = 100) => 
-    apiClient.get(`/events/${deviceId}`, { params: { limit } }),
-};
-
-// =================== CONTROL COMMANDS ===================
+// ==========================================
+// 4. REMOTE CONTROL
+// ==========================================
 export const controlAPI = {
-  // Send remote control command
-  sendRemote: (deviceId: string, command: RemoteCommand) =>
-    apiClient.post(`/control/${deviceId}`, command),
-  
-  // Update device settings
-  updateSetting: (deviceId: string, settings: DeviceSettings) =>
-    apiClient.post(`/setting/${deviceId}`, settings),
+  // Kirim Command (Power, Temp, Mode)
+  sendCommand: async (deviceId: string, type: string, value: any) => {
+    // Endpoint baru yang lebih rapi
+    const { data } = await api.post(`/devices/${deviceId}/command`, { 
+      deviceId, 
+      type, 
+      value 
+    });
+    return data;
+  },
 
-  // === TAMBAHAN BARU ===
-  // Request Diagnostics
-  requestDiagnostics: (deviceId: string) =>
-    apiClient.post(`/diagnostics/${deviceId}`, {}),
+  // Request Diagnostics (Tombol Scan)
+  requestDiagnostics: async (deviceId: string) => {
+     // Endpoint khusus refresh
+     const { data } = await api.post(`/devices/${deviceId}/refresh`);
+     return data;
+  }
 };
 
-// =================== TYPES ===================
-export interface Device {
-  device_id: string;
-  name: string;
-  status: string;
-  wifi_ssid: string;
-  rssi: number;
-  last_seen: string;
-  fw_version?: string;
-  ip_address?: string;
-  mac_address?: string;
-}
-
-export interface TelemetryLog {
-  id: number;
-  device_id: string;
-  power: boolean;
-  current_temp: number;
-  mode: string;
-  fan_speed: string;
-  error_code: string;
-  wifi_rssi: number;
-  rtc_status: string;
-  read_unit: boolean;
-  timestamp: string;
-}
-
-export interface RemoteCommand {
-  power?: boolean;
-  temp?: number;
-  mode?: 'COOL' | 'DRY' | 'FAN' | 'HEAT' | 'AUTO';
-  fan?: 'AUTO' | 'LOW' | 'MID' | 'HIGH';
-}
-
-export interface DeviceSettings {
-  automation?: boolean;
-  max_temp?: number;
-  min_temp?: number;
-  set_temp?: number;
-  set_mode?: string;
-  daily?: DaySchedule[];
-}
-
-export interface DaySchedule {
-  day: string;
-  type: 'full_time' | 'part_time' | 'libur';
-  waktu?: {
-    mulai: string;
-    selesai: string;
-  };
-}
-
-export default apiClient;
+// ==========================================
+// 5. SYSTEM STATUS
+// ==========================================
+export const systemAPI = {
+  getStatus: async () => {
+    // Endpoint ini mengembalikan { server: 'Online', mqtt: 'Connected'/'Disconnected' }
+    const { data } = await api.get<{ mqtt: string }>('/status');
+    return data;
+  }
+};

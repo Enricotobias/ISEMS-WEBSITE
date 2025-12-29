@@ -1,7 +1,7 @@
 {
   "pages": {},
   "app": {
-    "[project]/isems-frontend/app/automation/page": [
+    "[project]/app/automation/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },

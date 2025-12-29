@@ -8,7 +8,7 @@ export interface Device {
   last_seen: string;
   fw_version?: string;
   ip_address?: string;
-  mac_address?: string;
+  mac_address: string;
   created_at?: string;
 }
 
@@ -17,6 +17,7 @@ export interface TelemetryLog {
   id: number;
   device_id: string;
   power: boolean;
+  mac_address?: string;
   current_temp: number;
   mode: ACMode;
   fan_speed: FanSpeed;

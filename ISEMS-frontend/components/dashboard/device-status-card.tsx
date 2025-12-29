@@ -8,28 +8,39 @@ import {
   Wind, 
   Wifi,
   AlertTriangle,
-  Clock
+  Clock,
+  ShieldAlert // Icon baru untuk indikator konflik
 } from 'lucide-react'
 import { 
   formatTemperature, 
   getModeIcon, 
   getModeColor,
-  getFanIcon,
   getRSSIQuality,
   getStatusColor,
   formatRelativeTime,
   getErrorDescription
 } from '@/lib/utils'
 import { cn } from '@/lib/utils'
+import { Device } from '@/lib/types' // Pastikan type Device sudah di-export di lib/types.ts
 
 interface DeviceStatusCardProps {
-  deviceId: string
-  deviceName: string
+  device: Device // Ubah props untuk menerima object device lengkap
 }
 
-export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps) {
-  const { status, isOnline, lastDisconnect, offlineDuration } = useDeviceStatus(deviceId)
-  const { latest, isLoading } = useTelemetry(deviceId, 1)
+export function DeviceStatusCard({ device }: DeviceStatusCardProps) {
+  // Ambil ID dan Nama dari object device
+  const { device_id, name: deviceName, mac_address: registeredMac } = device
+
+  const { status, isOnline } = useDeviceStatus(device_id)
+  const { latest, isLoading } = useTelemetry(device_id, 1)
+
+  // --- LOGIKA DETEKSI KONFLIK ---
+  // Jika ada data telemetry masuk, dan device punya MAC terdaftar,
+  // tapi MAC yang masuk TIDAK SAMA dengan yang terdaftar.
+  const isConflict = 
+    latest?.mac_address && 
+    registeredMac && 
+    latest.mac_address !== registeredMac
 
   if (isLoading) {
     return (
@@ -53,10 +64,26 @@ export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps
 
   return (
     <Card className={cn(
-      "transition-all hover:shadow-lg",
-      !isOnline && "opacity-60"
+      "transition-all hover:shadow-lg relative overflow-hidden", // relative & overflow-hidden penting untuk banner
+      !isOnline && "opacity-60",
+      isConflict && "border-red-500 ring-2 ring-red-100" // Highlight border jika konflik
     )}>
-      <CardHeader>
+      
+      {/* --- WARNING BANNER (DUPLICATE ID) --- */}
+      {isConflict && (
+        <div className="absolute top-0 left-0 w-full bg-red-600 text-white text-[10px] md:text-xs font-bold px-3 py-1.5 flex items-center justify-center gap-2 z-10 animate-pulse">
+          <ShieldAlert className="w-4 h-4" />
+          <span>
+            SECURITY ALERT: DUPLICATE ID DETECTED! 
+            <span className="hidden md:inline font-normal opacity-90 ml-1">
+              (Source MAC: {latest?.mac_address})
+            </span>
+          </span>
+        </div>
+      )}
+
+      {/* Tambahkan padding-top extra jika ada alert agar header tidak tertutup */}
+      <CardHeader className={cn("transition-all", isConflict ? "pt-10" : "")}>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <div className={cn(
@@ -77,7 +104,7 @@ export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps
           </div>
         </div>
         
-        {/* Last Seen Info (jika offline) */}
+        {/* Last Seen Info */}
         {!isOnline && latest && (
           <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
             <Clock className="h-3 w-3" />
@@ -104,7 +131,7 @@ export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps
           </span>
         </div>
 
-        {/* Temperature */}
+        {/* Temperature & Mode */}
         {latest && (
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center gap-2 rounded-lg bg-blue-50 p-3">
@@ -117,7 +144,6 @@ export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps
               </div>
             </div>
 
-            {/* Mode */}
             <div className={cn(
               "flex items-center gap-2 rounded-lg p-3",
               getModeColor(latest.mode)
@@ -160,7 +186,7 @@ export function DeviceStatusCard({ deviceId, deviceName }: DeviceStatusCardProps
           </div>
         )}
 
-        {/* Error Alert */}
+        {/* Device Error Alert (E1, E2, etc) */}
         {hasError && latest && (
           <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3 text-red-600">
             <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />

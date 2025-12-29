@@ -1,153 +1,177 @@
 import express from 'express';
-// Gunakan 'import type' untuk Request & Response agar aman dari error TS1295/TS1484
-import type { Request, Response } from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import { initMqtt, sendCommand } from './services/mqttService';
-import { db } from './config/db';
+import db from './config/db'; // Import Knex
+import { initMqtt, sendCommand, getMqttStatus } from './services/mqttService';
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 5000;
 
-// Inisialisasi MQTT Listener
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Init MQTT
 initMqtt();
 
-// === API ROUTES ===
+// ============================================================================
+// 1. GROUP: DEVICE MANAGEMENT (Info Dasar Perangkat)
+// ============================================================================
 
-// 1. Get All Devices
-app.get('/api/devices', async (req: Request, res: Response) => {
+// [GET] List Semua Devices (Dashboard Utama)
+app.get('/api/devices', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM devices');
-        res.json(rows);
+        // Ambil list device beserta status terakhirnya
+        const devices = await db('devices').select('*').orderBy('created_at', 'asc');
+        res.json(devices);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching devices:', error);
         res.status(500).json({ error: 'Database error' });
     }
 });
 
-// 2. Get Telemetry History
-app.get('/api/logs/:deviceId', async (req: Request, res: Response) => {
+// [GET] Detail Satu Device (Halaman Detail)
+app.get('/api/devices/:id/detail', async (req, res) => {
     try {
-        // Casting 'as string' untuk memaksa tipe data menjadi string
-        const deviceId = req.params.deviceId as string;
-        
-        // Cek validasi sederhana
-        if (!deviceId) {
-            res.status(400).json({ error: 'Device ID is required' });
-            return;
-        }
-
-        const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
-        
-        const [rows] = await db.query(
-            'SELECT * FROM telemetry_logs WHERE device_id = ? ORDER BY timestamp DESC LIMIT ?', 
-            [deviceId, limit]
-        );
-        res.json(rows);
+        const device = await db('devices').where('device_id', req.params.id).first();
+        if (!device) return res.status(404).json({ error: 'Device not found' });
+        res.json(device);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Database error' });
     }
 });
 
-// 3. Send Remote Command
-app.post('/api/control/:deviceId', (req: Request, res: Response) => {
-    const deviceId = req.params.deviceId as string;
-    const command = req.body;
-    
-    if (!deviceId) {
-        res.status(400).json({ error: 'Device ID is required' });
-        return;
-    }
-
-    // Kirim ke MQTT via service
-    sendCommand(deviceId, 'remote', command);
-    
-    res.json({ success: true, message: 'Command sent' });
-});
-
-// 4. Update Setting
-app.post('/api/setting/:deviceId', (req: Request, res: Response) => {
-    const deviceId = req.params.deviceId as string;
-    const setting = req.body;
-    
-    if (!deviceId) {
-        res.status(400).json({ error: 'Device ID is required' });
-        return;
-    }
-
-    sendCommand(deviceId, 'setting', setting);
-    
-    res.json({ success: true, message: 'Setting update queued' });
-});
-
-// 5. Get Device Health
-app.get('/api/health/:deviceId', async (req: Request, res: Response) => {
+// [GET] Device Health / Diagnostik
+app.get('/api/devices/:id/health', async (req, res) => {
     try {
-        const deviceId = req.params.deviceId as string;
-        
-        if (!deviceId) {
-            res.status(400).json({ error: 'Device ID is required' });
-            return;
-        }
+        // Ambil data kesehatan terakhir dari tabel device_health
+        const health = await db('device_health')
+            .where('device_id', req.params.id)
+            // UBAH DARI 'created_at' MENJADI 'id' ATAU 'timestamp'
+            .orderBy('id', 'desc') // Kita pakai 'id' desc agar selalu dapat data paling baru masuk
+            .first();
+            
+        res.json(health || null);
+    } catch (error) {
+        console.error("Error fetching health:", error); // Tambahkan log agar terlihat di terminal
+        res.status(500).json({ error: 'Database error' });
+    }
+});
 
-        // Ambil 1 data kesehatan terbaru
-        const [rows] = await db.query(
-            'SELECT * FROM device_health WHERE device_id = ? ORDER BY timestamp DESC LIMIT 1', 
-            [deviceId]
+// ============================================================================
+// 2. GROUP: TELEMETRY DATA (Data Sensor: Suhu, Power, Mode)
+// ============================================================================
+
+// [GET] Riwayat Telemetry (Untuk Tabel Log Suhu)
+app.get('/api/devices/:id/telemetry', async (req, res) => {
+    try {
+        const limit = req.query.limit ? Number(req.query.limit) : 50;
+        
+        const logs = await db('telemetry_logs')
+            .where('device_id', req.params.id)
+            .orderBy('timestamp', 'desc')
+            .limit(limit);
+            
+        res.json(logs);
+    } catch (error) {
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+// [GET] Data Chart (Untuk Grafik Suhu - Diurutkan Ascending)
+app.get('/api/devices/:id/chart', async (req, res) => {
+    try {
+        // Ambil 20 data terakhir, tapi urutkan dari lama ke baru agar grafik bagus
+        const rows = await db.raw(
+            `SELECT * FROM (
+                SELECT * FROM telemetry_logs 
+                WHERE device_id = ? 
+                ORDER BY timestamp DESC LIMIT 20
+            ) sub ORDER BY timestamp ASC`,
+            [req.params.id]
         );
         
-        // Ambil item pertama dari array hasil query
-        const healthData = (rows as any[])[0] || null;
-        
-        res.json(healthData);
+        // Karena .raw mengembalikan [rows, fields], kita ambil rows (index 0)
+        res.json(rows[0]); 
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Database error' });
     }
 });
 
-app.post('/api/diagnostics/:deviceId', (req: Request, res: Response) => {
-    const deviceId = req.params.deviceId as string;
-    
-    if (!deviceId) {
-        res.status(400).json({ error: 'Device ID is required' });
-        return;
-    }
+// ============================================================================
+// 3. GROUP: SYSTEM LOGS (Log Aktivitas, Error, Ack)
+// ============================================================================
 
-    // Kirim perintah kosong {} ke topik command diagnostics
-    // ESP32 Anda sudah diprogram untuk merespon ini (lihat data.cpp baris 777)
-    sendCommand(deviceId, 'diagnostics', {});
-    
-    res.json({ success: true, message: 'Diagnostics requested' });
-});
-
-app.get('/api/events/:deviceId', async (req: Request, res: Response) => {
+// [GET] System Event Logs (Untuk Halaman "Logs" Global)
+app.get('/api/system-logs', async (req, res) => {
     try {
-        const deviceId = req.params.deviceId as string;
-        const limit = req.query.limit ? parseInt(req.query.limit as string) : 100; // Default 100 log terakhir
-        
-        if (!deviceId) {
-            res.status(400).json({ error: 'Device ID is required' });
-            return;
-        }
-
-        const [rows] = await db.query(
-            'SELECT * FROM event_logs WHERE device_id = ? ORDER BY timestamp DESC LIMIT ?', 
-            [deviceId, limit]
-        );
-        res.json(rows);
+        const logs = await db('event_logs')
+            .orderBy('id', 'desc')
+            .limit(100);
+        res.json(logs);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Database error' });
     }
 });
 
-// Jalankan Server
-const PORT = process.env.PORT || 5000;
+// ============================================================================
+// 4. GROUP: REMOTE CONTROL (Perintah ke ESP32)
+// ============================================================================
+
+// [POST] Kirim Command (Power, Suhu, Mode, Fan)
+app.post('/api/devices/:id/command', async (req, res) => {
+    const { deviceId, type, value } = req.body;
+    
+    // Validasi
+    if (!deviceId || !type) {
+        return res.status(400).json({ error: 'Missing deviceId or command type' });
+    }
+
+    try {
+        // Kirim ke MQTT
+        sendCommand(deviceId, type, value);
+        
+        // Simpan history command ke database
+        await db('command_history').insert({
+            device_id: deviceId,
+            command_type: type,
+            payload: JSON.stringify(value),
+            sent_at: db.fn.now()
+        });
+
+        res.json({ success: true, message: `Command ${type} sent to ${deviceId}` });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to send command' });
+    }
+});
+
+// [POST] Request Update/Diagnostic Manual (Tombol Scan/Refresh)
+app.post('/api/devices/:id/refresh', async (req, res) => {
+    const deviceId = req.params.id;
+    try {
+        // Kirim perintah 'get_status' atau 'get_diagnostics' ke ala
+        sendCommand(deviceId, 'diagnostics', {}); // Request health terbaru
+        
+        res.json({ success: true, message: 'Refresh signal sent' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to send refresh signal' });
+    }
+});
+
+// ============================================================================
+// 5. SERVER STATUS
+// ============================================================================
+app.get('/api/status', (req, res) => {
+    res.json({ 
+        server: 'Online', 
+        mqtt: getMqttStatus() ? 'Connected' : 'Disconnected',
+        timestamp: new Date() 
+    });
+});
+
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
 });

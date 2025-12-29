@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import useSWR from 'swr';
-import { devicesAPI, telemetryAPI, eventsAPI, controlAPI, healthAPI } from '@/lib/api';
+// PERBAIKAN IMPORT: Sesuaikan dengan export di lib/api.ts
+import { deviceAPI, telemetryAPI, controlAPI, logsAPI, systemAPI } from '@/lib/api';
 import type { EventLog } from '@/lib/types';
 import { mqttService } from '@/lib/mqtt'; 
 import type { 
@@ -10,13 +11,14 @@ import type {
   MQTTDataMessage,
   MQTTStatusMessage,
   ACMode,
-  FanSpeed 
+  DeviceHealth // Pastikan type ini ada di lib/types.ts
 } from '@/lib/types';
 
 // =================== DEVICES HOOK ===================
 export function useDevices() {
+  // Ganti devicesAPI -> deviceAPI
   const { data, error, mutate } = useSWR('/devices', () => 
-    devicesAPI.getAll().then(res => res.data)
+    deviceAPI.getAll().then(res => res) // deviceAPI.getAll() return data langsung (lihat lib/api.ts)
   );
 
   return {
@@ -29,12 +31,10 @@ export function useDevices() {
 
 // =================== TELEMETRY HOOK WITH MQTT ===================
 export function useTelemetry(deviceId: string, limit = 50) {
-  // PERBAIKAN DI SINI:
-  // Tambahkan query param ?limit=${limit} ke dalam Key SWR
-  // Agar request "Card" (limit 1) dan "Chart" (limit 50) tidak tabrakan cache-nya.
   const { data, error, mutate } = useSWR(
     deviceId ? `/logs/${deviceId}?limit=${limit}` : null,
-    () => telemetryAPI.getLogs(deviceId, limit).then(res => res.data),
+    // Ganti telemetryAPI.getLogs -> telemetryAPI.getHistory
+    () => telemetryAPI.getHistory(deviceId, limit).then(res => res),
     { refreshInterval: 5000 } 
   );
 
@@ -87,14 +87,16 @@ export function useTelemetry(deviceId: string, limit = 50) {
   };
 }
 
+// =================== DEVICE HEALTH HOOK ===================
 export function useDeviceHealth(deviceId: string) {
   const { data, error, mutate } = useSWR(
     deviceId ? `/health/${deviceId}` : null,
-    () => healthAPI.getLatest(deviceId).then(res => {
-      // Handle jika return array atau object tunggal
-      return Array.isArray(res.data) ? res.data[0] : res.data;
+    // Ganti healthAPI.getLatest -> deviceAPI.getHealth
+    () => deviceAPI.getHealth(deviceId).then(res => {
+      // Pastikan handling array/object sesuai respons API
+      return Array.isArray(res) ? res[0] : res;
     }),
-    { refreshInterval: 10000 } // Cek kesehatan setiap 10 detik
+    { refreshInterval: 10000 }
   );
 
   return {
@@ -111,11 +113,13 @@ export function useDeviceStatus(deviceId: string) {
   const [lastDisconnect, setLastDisconnect] = useState<string>('');
   const [offlineDuration, setOfflineDuration] = useState<number>(0);
 
-  // 1. Fetch Status Awal dari Database
+  // 1. Fetch Status Awal
   useEffect(() => {
     if (!deviceId) return;
-    devicesAPI.getAll().then((res) => {
-      const device = res.data.find((d: any) => d.device_id === deviceId);
+    // Ganti devicesAPI -> deviceAPI
+    deviceAPI.getAll().then((res) => {
+      // res adalah array devices (sesuai lib/api.ts)
+      const device = res.find((d: any) => d.device_id === deviceId);
       if (device && device.status) {
         setStatus(device.status);
       }
@@ -189,7 +193,8 @@ export function useRemoteControl(deviceId: string) {
     setLastCommand(command);
     
     try {
-      await controlAPI.sendRemote(deviceId, command);
+      // controlAPI.sendCommand sesuai lib/api.ts
+      await controlAPI.sendCommand(deviceId, 'remote', command);
       
       setTimeout(() => {
         setIsLoading((currentLoading) => {
@@ -271,11 +276,17 @@ export function useTemperatureControl(deviceId: string, initialTemp = 24) {
   };
 }
 
+// =================== EVENT LOGS HOOK ===================
 export function useEventLogs(deviceId: string) {
+  // CATATAN: Backend saat ini hanya punya /system-logs (Global).
+  // Jika ingin logs spesifik device, backend perlu endpoint baru /devices/:id/logs
+  // Untuk sementara kita pakai logsAPI.getAll() atau disable dulu jika deviceId wajib.
+  
   const { data, error, mutate } = useSWR(
     deviceId ? `/events/${deviceId}` : null,
-    () => eventsAPI.getLogs(deviceId).then(res => res.data),
-    { refreshInterval: 5000 } // Auto refresh setiap 5 detik
+    // Jika logsAPI.getAll() mengembalikan semua log, kita filter di client sementara
+    () => logsAPI.getAll().then(res => res.filter((l: any) => l.device_id === deviceId)),
+    { refreshInterval: 5000 }
   );
 
   return {
@@ -283,6 +294,25 @@ export function useEventLogs(deviceId: string) {
     isLoading: !error && !data,
     isError: error,
     refresh: mutate,
+  };
+}
+
+// =================== SERVER MQTT STATUS HOOK ===================
+// Hook ini mengecek apakah BACKEND terhubung ke Port 8883
+export function useServerConnection() {
+  const { data, error } = useSWR(
+    '/status', 
+    () => systemAPI.getStatus(),
+    { 
+      refreshInterval: 5000, // Cek setiap 5 detik
+      dedupingInterval: 2000 
+    }
+  );
+
+  return { 
+    // Bernilai True jika backend bilang 'Connected'
+    isConnected: data?.mqtt === 'Connected',
+    isLoading: !data && !error
   };
 }
 

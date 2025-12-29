@@ -3,8 +3,7 @@ module.exports = [
 
 __turbopack_context__.v((parentImport) => {
     return Promise.all([
-  "chunks/8fc63_10bd5d95._.js",
-  "chunks/[root-of-the-server]__2160e68c._.js"
+  "chunks/[root-of-the-server]__bbbb2dd3._.js"
 ].map((chunk) => __turbopack_context__.l(chunk))).then(() => {
         return parentImport("[turbopack-node]/transforms/postcss.ts { CONFIG => \"[project]/isems-frontend/postcss.config.mjs [postcss] (ecmascript)\" } [postcss] (ecmascript)");
     });

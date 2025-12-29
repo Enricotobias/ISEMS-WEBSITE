@@ -1,15 +1,18 @@
 {
   "app": {
-    "[project]/isems-frontend/app/automation/page": [
+    "[project]/app/automation/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/isems-frontend/app/dashboard/page": [
+    "[project]/app/dashboard/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/isems-frontend/app/logs/page": [
+    "[project]/app/logs/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/isems-frontend/app/remote/page": [
+    "[project]/app/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/app/remote/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },
